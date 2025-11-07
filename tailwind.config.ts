@@ -80,10 +80,45 @@ export default {
             height: "0",
           },
         },
+        "pulse-ring": {
+          "0%": {
+            transform: "scale(0.95)",
+            opacity: "1",
+          },
+          "50%": {
+            transform: "scale(1.05)",
+            opacity: "0.7",
+          },
+          "100%": {
+            transform: "scale(0.95)",
+            opacity: "1",
+          },
+        },
+        "fade-in-up": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(20px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+        "wave": {
+          "0%, 100%": {
+            transform: "scaleY(0.5)",
+          },
+          "50%": {
+            transform: "scaleY(1)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "pulse-ring": "pulse-ring var(--pulse-duration) ease-in-out infinite",
+        "fade-in-up": "fade-in-up 0.6s ease-out",
+        "wave": "wave 1s ease-in-out infinite",
       },
     },
   },
