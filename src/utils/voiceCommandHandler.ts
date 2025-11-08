@@ -107,7 +107,7 @@ class VoiceCommandHandler {
   private initializeCommands() {
     this.commands = [
       {
-        patterns: ['scroll down', 'move down', 'go down'],
+        patterns: ['go down', 'move down', 'go down', 'down'],
         action: () => this.scrollBy(0, 600),
         feedback: 'Scrolling down...'
       },
@@ -155,7 +155,7 @@ class VoiceCommandHandler {
         feedback: 'Clicking first interactive element...'
       },
       {
-        patterns: ['highlight headings', 'mark headings', 'highlight heading'],
+        patterns: ['highlight the headings', 'mark headings', 'highlight headings'],
         action: () => {
           document.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(heading => {
             (heading as HTMLElement).style.backgroundColor = 'yellow';
