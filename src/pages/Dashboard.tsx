@@ -11,28 +11,25 @@ import Footer from "@/components/Footer";
 import VoiceButton from "@/components/VoiceButton";
 import Loader from "@/components/Loader";
 import AccessibilityMode from "@/components/AccessibilityMode";
+import useSpeechRecognition from "@/hooks/useSpeechRecognition";
+import StopSpeakingButton from "@/components/StopSpeakingButton";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [isListening, setIsListening] = useState(false);
   const [demoMode, setDemoMode] = useState(false);
-  const [recognizedText, setRecognizedText] = useState("");
-  const [commandLog, setCommandLog] = useState([
-    "Navigate to homepage",
-    "Read main article",
-    "Translate to Spanish",
-    "Summarize content",
-    "Search for accessibility",
-  ]);
+  const {
+    isListening,
+    recognizedText,
+    startListening,
+    stopListening,
+    error
+  } = useSpeechRecognition();
 
   const handleVoiceClick = () => {
-    setIsListening(!isListening);
-    if (!isListening) {
-      // Simulate voice recognition
-      setTimeout(() => {
-        setRecognizedText("Navigate to next section");
-        setIsListening(false);
-      }, 2000);
+    if (isListening) {
+      stopListening();
+    } else {
+      startListening();
     }
   };
 
@@ -76,11 +73,14 @@ const Dashboard = () => {
               <CardContent className="space-y-6">
                 {/* Voice Button */}
                 <div className="flex flex-col items-center justify-center py-8 gap-6">
-                  <VoiceButton
-                    isListening={isListening}
-                    onClick={handleVoiceClick}
-                    size="xl"
-                  />
+                  <div className="flex items-center gap-6">
+                    <VoiceButton
+                      isListening={isListening}
+                      onClick={handleVoiceClick}
+                      size="xl"
+                    />
+                    <StopSpeakingButton />
+                  </div>
                   {isListening && (
                     <motion.div
                       initial={{ opacity: 0 }}
@@ -96,9 +96,15 @@ const Dashboard = () => {
                   <Label className="text-sm text-muted-foreground mb-2 block">
                     Recognized Command
                   </Label>
-                  <p className="text-lg text-foreground" aria-live="polite">
-                    {recognizedText || "Waiting for voice input..."}
-                  </p>
+                  {error ? (
+                    <p className="text-lg text-destructive" aria-live="polite">
+                      {error}
+                    </p>
+                  ) : (
+                    <p className="text-lg text-foreground" aria-live="polite">
+                      {recognizedText || "Waiting for voice input..."}
+                    </p>
+                  )}
                 </div>
 
                 {/* Action Buttons */}
